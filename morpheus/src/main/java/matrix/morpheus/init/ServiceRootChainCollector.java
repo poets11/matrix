@@ -3,7 +3,7 @@ package matrix.morpheus.init;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
-import matrix.morpheus.AssembleConfig;
+import matrix.morpheus.AnalyzerConfig;
 import matrix.morpheus.AssembleException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -17,9 +17,9 @@ import java.util.Set;
 /**
  * Created by poets11 on 15. 7. 15..
  */
-public class ServiceInitialPointCollector implements InitialPointCollector {
+public class ServiceRootChainCollector implements RootChainCollector {
 	@Override
-	public List<CtMethod> getInitialPoints(AssembleConfig assembleConfig) {
+	public List<CtMethod> getRootChains(AnalyzerConfig assembleConfig) {
 		try {
 			List<CtMethod> serviceMethods = new ArrayList<CtMethod>();
 

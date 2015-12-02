@@ -4,15 +4,16 @@ package matrix.morpheus;
 import matrix.morpheus.expression.AbstractExprEditor;
 import matrix.morpheus.expression.access.inspect.ClassTypeInspectorFactory;
 import matrix.morpheus.expression.access.rule.ClassFinderFactory;
-import matrix.morpheus.init.InitialPointCollector;
+import matrix.morpheus.init.RootChainCollector;
 import matrix.morpheus.write.TraceWriter;
 
 /**
  * Created by poets11 on 15. 7. 15..
  */
-public class AssembleConfig {
+public class AnalyzerConfig {
     private String basePackage;
-    private InitialPointCollector initialPointCollector;
+    private RootChainCollector rootChainCollector;
+
     private TraceWriter traceWriter;
     private Class<AbstractExprEditor> abstractExprEditorClass;
     private ClassTypeInspectorFactory classTypeInspectorFactory;
@@ -42,12 +43,12 @@ public class AssembleConfig {
         this.basePackage = basePackage;
     }
 
-    public InitialPointCollector getInitialPointCollector() {
-        return initialPointCollector;
+    public RootChainCollector getRootChainCollector() {
+        return rootChainCollector;
     }
 
-    public void setInitialPointCollector(InitialPointCollector initialPointCollector) {
-        this.initialPointCollector = initialPointCollector;
+    public void setRootChainCollector(RootChainCollector rootChainCollector) {
+        this.rootChainCollector = rootChainCollector;
     }
 
     public TraceWriter getTraceWriter() {

@@ -2,7 +2,7 @@ package matrix.morpheus;
 
 import javassist.CtMethod;
 import matrix.morpheus.expression.AbstractExprEditor;
-import matrix.morpheus.init.InitialPointCollector;
+import matrix.morpheus.init.RootChainCollector;
 import matrix.morpheus.write.SequenceImageTraceWriter;
 import matrix.morpheus.write.SequenceImageTraceWriterForService;
 import matrix.morpheus.write.TraceWriter;
@@ -12,21 +12,32 @@ import java.util.List;
 /**
  * Created by poets11 on 15. 7. 15..
  */
-public class TraceAssembler {
-    private AssembleConfig assembleConfig;
+public class MorpheusAnalyzer {
+    private AnalyzerConfig analyzerConfig;
+
+    public void analyze() {
+        try {
+            RootChainCollector rootChainCollector = analyzerConfig.getRootChainCollector();
+            List<CtMethod> rootChains = rootChainCollector.getRootChains(analyzerConfig);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void assemble() {
         try {
-            InitialPointCollector collector = assembleConfig.getInitialPointCollector();
+            RootChainCollector collector = analyzerConfig.getRootChainCollector();
 
-            // FIXME 왜 여기서 assembleConfig 를 다시 넣어주나?
+            // FIXME 왜 여기서 analyzerConfig 를 다시 넣어주나?
             
-            List<CtMethod> initialPoints = collector.getInitialPoints(assembleConfig);
+            List<CtMethod> initialPoints = collector.getRootChains(analyzerConfig);
             for (CtMethod initialPoint : initialPoints) {
-                AbstractExprEditor exprEditor = assembleConfig.getExprEditor();
-                exprEditor.setAssembleConfig(assembleConfig);
+                AbstractExprEditor exprEditor = analyzerConfig.getExprEditor();
+                exprEditor.setAssembleConfig(analyzerConfig);
 
-                TraceWriter traceWriter = assembleConfig.getTraceWriter();
+                TraceWriter traceWriter = analyzerConfig.getTraceWriter();
 
                 String groupKey = traceWriter.writeInitTraceInfo(initialPoint);
                 if (groupKey != null) {
@@ -54,11 +65,11 @@ public class TraceAssembler {
         }
     }
 
-    public AssembleConfig getAssembleConfig() {
-        return assembleConfig;
+    public AnalyzerConfig getAnalyzerConfig() {
+        return analyzerConfig;
     }
 
-    public void setAssembleConfig(AssembleConfig assembleConfig) {
-        this.assembleConfig = assembleConfig;
+    public void setAnalyzerConfig(AnalyzerConfig analyzerConfig) {
+        this.analyzerConfig = analyzerConfig;
     }
 }

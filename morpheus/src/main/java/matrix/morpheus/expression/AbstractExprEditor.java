@@ -4,7 +4,7 @@ import javassist.*;
 import javassist.expr.ExprEditor;
 import javassist.expr.FieldAccess;
 import javassist.expr.MethodCall;
-import matrix.morpheus.AssembleConfig;
+import matrix.morpheus.AnalyzerConfig;
 import matrix.morpheus.AssembleException;
 import matrix.morpheus.expression.access.ClassType;
 import matrix.morpheus.write.TraceInfo;
@@ -14,7 +14,7 @@ import matrix.morpheus.write.TraceWriter;
  * Created by poets11 on 15. 7. 16..
  */
 public abstract class AbstractExprEditor extends ExprEditor {
-    protected AssembleConfig assembleConfig;
+    protected AnalyzerConfig assembleConfig;
 
     protected CtField accessedField;
     
@@ -49,11 +49,11 @@ public abstract class AbstractExprEditor extends ExprEditor {
         this.depth = depth;
     }
 
-    public AssembleConfig getAssembleConfig() {
+    public AnalyzerConfig getAssembleConfig() {
         return assembleConfig;
     }
 
-    public void setAssembleConfig(AssembleConfig assembleConfig) {
+    public void setAssembleConfig(AnalyzerConfig assembleConfig) {
         this.assembleConfig = assembleConfig;
     }
 
