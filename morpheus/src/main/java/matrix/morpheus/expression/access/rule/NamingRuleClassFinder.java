@@ -1,6 +1,10 @@
 package matrix.morpheus.expression.access.rule;
 
-import javassist.*;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtMethod;
+import javassist.expr.FieldAccess;
+import matrix.morpheus.chain.node.Node;
 import matrix.morpheus.expression.access.ClassFinder;
 
 /**
@@ -27,7 +31,7 @@ public class NamingRuleClassFinder implements ClassFinder {
     }
 
     @Override
-    public CtClass findActualClass(CtField accessedField, CtMethod ctMethod) throws NotFoundException {
+    public CtMethod findActualMethod(Node parentNode, FieldAccess lastAccessedField, CtMethod ctMethod) {
         ClassPool pool = ClassPool.getDefault();
 
         CtClass declaringClass = ctMethod.getDeclaringClass();
@@ -38,9 +42,9 @@ public class NamingRuleClassFinder implements ClassFinder {
             try {
                 CtClass ctClass = pool.get(packageName + "." + prefix + className);
                 if (ctClass != null) {
-                    return ctClass;
+                    return ctClass.getDeclaredMethod(ctMethod.getName(), ctMethod.getParameterTypes());
                 }
-            } catch (NotFoundException e) {
+            } catch (Exception e) {
             }
         }
 
@@ -48,9 +52,9 @@ public class NamingRuleClassFinder implements ClassFinder {
             try {
                 CtClass ctClass = pool.get(packageName + "." + className + suffix);
                 if (ctClass != null) {
-                    return ctClass;
+                    return ctClass.getDeclaredMethod(ctMethod.getName(), ctMethod.getParameterTypes());
                 }
-            } catch (NotFoundException e) {
+            } catch (Exception e) {
             }
         }
         

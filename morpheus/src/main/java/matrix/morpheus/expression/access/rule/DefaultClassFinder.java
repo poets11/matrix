@@ -1,6 +1,9 @@
 package matrix.morpheus.expression.access.rule;
 
-import javassist.*;
+import javassist.CtMethod;
+import javassist.Modifier;
+import javassist.expr.FieldAccess;
+import matrix.morpheus.chain.node.Node;
 import matrix.morpheus.expression.access.ClassFinder;
 
 /**
@@ -8,11 +11,11 @@ import matrix.morpheus.expression.access.ClassFinder;
  */
 public class DefaultClassFinder implements ClassFinder {
     @Override
-    public CtClass findActualClass(CtField accessedField, CtMethod ctMethod) throws NotFoundException {
+    public CtMethod findActualMethod(Node parentNode, FieldAccess lastAccessedField, CtMethod ctMethod) {
         if (Modifier.isAbstract(ctMethod.getModifiers())) {
             return null;
         } else {
-            return ctMethod.getDeclaringClass();
+            return ctMethod;
         }
     }
 }

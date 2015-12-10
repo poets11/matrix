@@ -1,11 +1,9 @@
 package matrix.morpheus;
 
-import javassist.CtMethod;
-import matrix.morpheus.expression.AbstractExprEditor;
+import matrix.morpheus.chain.Chain;
+import matrix.morpheus.chain.ChainLinkerFactory;
+import matrix.morpheus.chain.node.ChainLinker;
 import matrix.morpheus.init.RootChainCollector;
-import matrix.morpheus.write.SequenceImageTraceWriter;
-import matrix.morpheus.write.SequenceImageTraceWriterForService;
-import matrix.morpheus.write.TraceWriter;
 
 import java.util.List;
 
@@ -17,15 +15,21 @@ public class MorpheusAnalyzer {
 
     public void analyze() {
         try {
+            ChainLinkerFactory linkerFactory = analyzerConfig.getChainLinkerFactory();
+
             RootChainCollector rootChainCollector = analyzerConfig.getRootChainCollector();
-            List<CtMethod> rootChains = rootChainCollector.getRootChains(analyzerConfig);
-
-
+            List<Chain> rootChains = rootChainCollector.getRootChains(analyzerConfig);
+            for (int i = 0; i < rootChains.size(); i++) {
+                Chain chain = rootChains.get(i);
+                ChainLinker chainLinker = linkerFactory.newChainLinker(analyzerConfig);
+                chain = chainLinker.link(chain);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /*
     public void assemble() {
         try {
             RootChainCollector collector = analyzerConfig.getRootChainCollector();
@@ -64,6 +68,7 @@ public class MorpheusAnalyzer {
             throw new AssembleException(e);
         }
     }
+    */
 
     public AnalyzerConfig getAnalyzerConfig() {
         return analyzerConfig;

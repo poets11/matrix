@@ -1,9 +1,9 @@
 package matrix.morpheus.expression.access.rule;
 
-import javassist.CtClass;
-import javassist.CtField;
 import javassist.CtMethod;
-import javassist.NotFoundException;
+import javassist.Modifier;
+import javassist.expr.FieldAccess;
+import matrix.morpheus.chain.node.Node;
 import matrix.morpheus.expression.access.ClassFinder;
 
 import java.util.ArrayList;
@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class ClassFinderFactory {
     private List<ClassFinder> classFinders = new ArrayList<ClassFinder>();
-    
+
     public ClassFinderFactory() {
-        
-    } 
+
+    }
 
     public ClassFinderFactory(Class<? extends ClassFinder>... classFinderClasses) throws IllegalAccessException, InstantiationException {
         for (int i = 0; i < classFinderClasses.length; i++) {
@@ -35,18 +35,20 @@ public class ClassFinderFactory {
         }
     }
 
-    public CtClass findActualClass(CtField accessedField, CtMethod ctMethod) {
+    public CtMethod findActualClass(FieldAccess lastAccessedField, CtMethod ctMethod) {
+        return findActualClass(null, lastAccessedField, ctMethod);
+    }
+
+    public CtMethod findActualClass(Node parentNode, FieldAccess lastAccessedField, CtMethod ctMethod) {
         for (int i = 0; i < classFinders.size(); i++) {
             ClassFinder classFinder = classFinders.get(i);
-            try {
-                CtClass actualClass = classFinder.findActualClass(accessedField, ctMethod);
-                if (actualClass != null) {
-                    return actualClass;
-                }
-            } catch (NotFoundException e) {
+
+            CtMethod actualMethod = classFinder.findActualMethod(parentNode, lastAccessedField, ctMethod);
+            if (actualMethod != null && Modifier.isAbstract(actualMethod.getModifiers()) == false) {
+                return actualMethod;
             }
         }
-        
+
         return null;
     }
 

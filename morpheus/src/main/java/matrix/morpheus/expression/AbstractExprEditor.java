@@ -1,14 +1,14 @@
 package matrix.morpheus.expression;
 
-import javassist.*;
+import javassist.CannotCompileException;
+import javassist.CtField;
+import javassist.CtMethod;
+import javassist.NotFoundException;
 import javassist.expr.ExprEditor;
 import javassist.expr.FieldAccess;
 import javassist.expr.MethodCall;
 import matrix.morpheus.AnalyzerConfig;
 import matrix.morpheus.AssembleException;
-import matrix.morpheus.expression.access.ClassType;
-import matrix.morpheus.write.TraceInfo;
-import matrix.morpheus.write.TraceWriter;
 
 /**
  * Created by poets11 on 15. 7. 16..
@@ -71,29 +71,29 @@ public abstract class AbstractExprEditor extends ExprEditor {
         try {
             CtMethod ctMethod = m.getMethod();
 
-            CtClass actualClass = assembleConfig.getClassFinderFactory().findActualClass(accessedField, ctMethod);
-            if (actualClass != null) {
-                CtMethod actualMethod = actualClass.getDeclaredMethod(ctMethod.getName(), ctMethod.getParameterTypes());
-                ClassType classType = assembleConfig.getClassTypeInspectorFactory().inspect(null, actualMethod);
-
-                String className = actualClass.getName();
-                if (className.startsWith(assembleConfig.getBasePackage())) {
-                    TraceInfo traceInfo = new TraceInfo(seq, depth, key, classType, actualMethod);
-
-                    TraceWriter traceWriter = assembleConfig.getTraceWriter();
-                    boolean writeResult = traceWriter.writeTraceInfo(traceInfo);
-                    if (writeResult) {
-                        seq++;
-                        depth++;
-
-                        actualMethod.instrument(this);
-
-                        depth--;
-                    } else {
-                        actualMethod.instrument(this);
-                    } 
-                }
-            }
+//            CtClass actualClass = assembleConfig.getClassFinderFactory().findActualClass(ctMethod);
+//            if (actualClass != null) {
+//                CtMethod actualMethod = actualClass.getDeclaredMethod(ctMethod.getName(), ctMethod.getParameterTypes());
+//                ClassType classType = assembleConfig.getClassTypeInspectorFactory().inspect(null, actualMethod);
+//
+//                String className = actualClass.getName();
+//                if (className.startsWith(assembleConfig.getBasePackage())) {
+//                    TraceInfo traceInfo = new TraceInfo(seq, depth, key, classType, actualMethod);
+//
+//                    TraceWriter traceWriter = assembleConfig.getTraceWriter();
+//                    boolean writeResult = traceWriter.writeTraceInfo(traceInfo);
+//                    if (writeResult) {
+//                        seq++;
+//                        depth++;
+//
+//                        actualMethod.instrument(this);
+//
+//                        depth--;
+//                    } else {
+//                        actualMethod.instrument(this);
+//                    }
+//                }
+//            }
         } catch (NotFoundException e) {
             throw new AssembleException(e);
         }

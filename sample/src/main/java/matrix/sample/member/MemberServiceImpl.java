@@ -15,11 +15,13 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<Member> getMemberList(MemberCondition memberCondition) {
+        MemberUtils.printMemberInfo(memberCondition);
         return memberRepository.selectMemberList(memberCondition);
     }
 
     @Override
     public Member getMember(MemberCondition memberCondition) {
+        MemberUtils.printMemberInfo(memberCondition);
         return memberRepository.selectMember(memberCondition);
     }
 }

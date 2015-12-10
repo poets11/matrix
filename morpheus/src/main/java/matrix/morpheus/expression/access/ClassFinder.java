@@ -1,13 +1,12 @@
 package matrix.morpheus.expression.access;
 
-import javassist.CtClass;
-import javassist.CtField;
 import javassist.CtMethod;
-import javassist.NotFoundException;
+import javassist.expr.FieldAccess;
+import matrix.morpheus.chain.node.Node;
 
 /**
  * Created by poets11 on 15. 7. 20..
  */
 public interface ClassFinder {
-    CtClass findActualClass(CtField accessedField, CtMethod ctMethod) throws NotFoundException;
+    CtMethod findActualMethod(Node parentNode, FieldAccess lastAccessedField, CtMethod ctMethod);
 }

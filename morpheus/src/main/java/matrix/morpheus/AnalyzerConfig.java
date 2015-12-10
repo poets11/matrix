@@ -1,6 +1,9 @@
 package matrix.morpheus;
 
 
+import matrix.morpheus.chain.ChainLinkerFactory;
+import matrix.morpheus.chain.DefaultChainLinkerFactory;
+import matrix.morpheus.chain.node.NodeConverterFactory;
 import matrix.morpheus.expression.AbstractExprEditor;
 import matrix.morpheus.expression.access.inspect.ClassTypeInspectorFactory;
 import matrix.morpheus.expression.access.rule.ClassFinderFactory;
@@ -18,6 +21,8 @@ public class AnalyzerConfig {
     private Class<AbstractExprEditor> abstractExprEditorClass;
     private ClassTypeInspectorFactory classTypeInspectorFactory;
     private ClassFinderFactory classFinderFactory;
+    private ChainLinkerFactory chainLinkerFactory = new DefaultChainLinkerFactory();
+    private NodeConverterFactory nodeConverterFactory;
 
     public ClassTypeInspectorFactory getClassTypeInspectorFactory() {
         return classTypeInspectorFactory;
@@ -69,5 +74,17 @@ public class AnalyzerConfig {
 
     public AbstractExprEditor getExprEditor() throws IllegalAccessException, InstantiationException {
         return abstractExprEditorClass.newInstance();
+    }
+
+    public ChainLinkerFactory getChainLinkerFactory() {
+        return chainLinkerFactory;
+    }
+
+    public NodeConverterFactory getNodeConverterFactory() {
+        return nodeConverterFactory;
+    }
+
+    public void setNodeConverterFactory(NodeConverterFactory nodeConverterFactory) {
+        this.nodeConverterFactory = nodeConverterFactory;
     }
 }
