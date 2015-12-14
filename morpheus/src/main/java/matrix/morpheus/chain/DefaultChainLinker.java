@@ -70,7 +70,7 @@ public class DefaultChainLinker extends ChainLinker {
         currentChain = rootChain;
         currentSeq = rootChain.getSeq();
 
-        CtMethod ctMethod = getRoottMethod(rootChain);
+        CtMethod ctMethod = getCurrentNodeMethod(rootChain);
         if (ctMethod != null) {
             ctMethod.instrument(this);
         }

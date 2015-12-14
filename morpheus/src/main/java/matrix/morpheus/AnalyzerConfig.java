@@ -17,6 +17,9 @@ public class AnalyzerConfig {
     private String basePackage;
     private RootChainCollector rootChainCollector;
 
+    private String webRootPath;
+    private String tomcatHome;
+
     private TraceWriter traceWriter;
     private Class<AbstractExprEditor> abstractExprEditorClass;
     private ClassTypeInspectorFactory classTypeInspectorFactory;
@@ -86,5 +89,21 @@ public class AnalyzerConfig {
 
     public void setNodeConverterFactory(NodeConverterFactory nodeConverterFactory) {
         this.nodeConverterFactory = nodeConverterFactory;
+    }
+
+    public String getWebRootPath() {
+        return webRootPath;
+    }
+
+    public void setWebRootPath(String webRootPath) {
+        this.webRootPath = webRootPath;
+    }
+
+    public String getTomcatHome() {
+        return tomcatHome;
+    }
+
+    public void setTomcatHome(String tomcatHome) {
+        this.tomcatHome = tomcatHome;
     }
 }

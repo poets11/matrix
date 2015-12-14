@@ -11,6 +11,8 @@ public class NodeConverterFactory {
     private NodeConverter nodeConverter = new DefaultNodeConverter();
 
     public Chain createAndSetCurrentNode(Chain currentChain, CtMethod ctMethod) {
+
+
         currentChain = nodeConvertListener.beforeConvert(currentChain, ctMethod);
         currentChain = nodeConverter.convertAndSetCurrentNode(currentChain, ctMethod);
         currentChain = nodeConvertListener.afterConvert(currentChain, ctMethod);

@@ -31,7 +31,7 @@ public abstract class ChainLinker extends ExprEditor implements Runnable {
         return pool;
     }
 
-    protected CtMethod getRoottMethod(Chain rootChain) {
+    protected CtMethod getCurrentNodeMethod(Chain rootChain) {
         Node node = rootChain.getNode();
         if (node == null || node instanceof MethodNode == false) {
             return null;

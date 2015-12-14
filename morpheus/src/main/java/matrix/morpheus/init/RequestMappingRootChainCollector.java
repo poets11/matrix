@@ -150,10 +150,13 @@ public class RequestMappingRootChainCollector implements RootChainCollector {
         try {
             List<URL> urlList = new ArrayList<URL>();
 
-            urlList.add(new URL("file:///Users/poets11/development/eclipse/workspace_beijing/beijing-ces/target/classes/"));
+            File webRoot = new File(analyzerConfig.getWebRootPath());
+            File tomcatHome = new File(analyzerConfig.getTomcatHome());
 
-            appendUrl(urlList, "/Users/poets11/development/eclipse/workspace_beijing/beijing-ces/target/beijing-ces-1.0.0-SNAPSHOT/WEB-INF/lib");
-            appendUrl(urlList, "/Users/poets11/development/lib/apache-tomcat-7.0.57/lib");
+            urlList.add(new URL("file://" + new File(webRoot, "/WEB-INF/classes").getAbsolutePath() + "/"));
+
+            appendJarUrl(urlList, new File(webRoot, "/WEB-INF/lib").getAbsolutePath());
+            appendJarUrl(urlList, new File(tomcatHome, "/lib").getAbsolutePath());
 
             ClassLoader classLoader = new URLClassLoader(urlList.toArray(new URL[]{}));
 
@@ -169,7 +172,7 @@ public class RequestMappingRootChainCollector implements RootChainCollector {
         return null;
     }
 
-    private void appendUrl(List<URL> urlList, String dirPath) throws MalformedURLException {
+    private void appendJarUrl(List<URL> urlList, String dirPath) throws MalformedURLException {
         File dir = new File(dirPath);
         File[] files = dir.listFiles();
         for (int i = 0; i < files.length; i++) {

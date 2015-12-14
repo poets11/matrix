@@ -14,6 +14,8 @@ public class MorpheusAnalyzerTest {
         AnalyzerConfig config = new AnalyzerConfig();
         config.setBasePackage("hanmi.ces");
         config.setRootChainCollector(new RequestMappingRootChainCollector());
+        config.setWebRootPath("/Users/poets11/development/eclipse/workspace_beijing/beijing-ces/target/beijing-ces-1.0.0-SNAPSHOT");
+        config.setTomcatHome("/Users/poets11/development/lib/apache-tomcat-7.0.57");
 
         config.setClassFinderFactory(getClassFinderFactory());
         config.setNodeConverterFactory(getConverterFactory());

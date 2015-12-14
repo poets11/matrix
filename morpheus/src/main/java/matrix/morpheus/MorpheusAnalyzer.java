@@ -5,6 +5,8 @@ import matrix.morpheus.chain.ChainLinkerFactory;
 import matrix.morpheus.chain.node.ChainLinker;
 import matrix.morpheus.init.RootChainCollector;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.List;
 
 /**
@@ -15,6 +17,7 @@ public class MorpheusAnalyzer {
 
     public void analyze() {
         try {
+            FileWriter writer = new FileWriter(new File("/Users/poets11/morpheus.txt"));
             ChainLinkerFactory linkerFactory = analyzerConfig.getChainLinkerFactory();
 
             RootChainCollector rootChainCollector = analyzerConfig.getRootChainCollector();
@@ -23,7 +26,10 @@ public class MorpheusAnalyzer {
                 Chain chain = rootChains.get(i);
                 ChainLinker chainLinker = linkerFactory.newChainLinker(analyzerConfig);
                 chain = chainLinker.link(chain);
+                writer.write(chain.toString());
+                writer.write("\n");
             }
+            writer.close();;
         } catch (Exception e) {
             e.printStackTrace();
         }
